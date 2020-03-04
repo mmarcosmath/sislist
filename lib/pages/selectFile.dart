@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:csv/csv.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:share_extend/share_extend.dart';
 import 'package:sislist/models/aluno.dart';
 import 'package:sislist/models/simpleDataBase.dart';
 
@@ -33,6 +34,8 @@ class _CarregaCsvState extends State<CarregaCsv> {
       print("Abrir" + e.toString());
     }
     if (_path == null) return;
+    print(_path);
+    // ShareExtend.share(_path, 'file');
 
     final input = File(_path).openRead();
     var fields = await input
@@ -85,7 +88,7 @@ class _CarregaCsvState extends State<CarregaCsv> {
             new RaisedButton(
               onPressed: () async {
                 await _openFileExplorer();
-                Navigator.pop(context);
+                // Navigator.pop(context);
               },
               child: new Text("Abrir"),
             ),

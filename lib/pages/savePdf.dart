@@ -3,28 +3,20 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:directory_picker/directory_picker.dart';
+import 'package:sislist/models/pdfFIle.dart';
 
 class SavePdf extends StatefulWidget {
+  List<List<String>> lista;
+  SavePdf(this.lista);
+
   @override
-  _SavePdfState createState() => _SavePdfState();
+  _SavePdfState createState() => _SavePdfState(lista);
 }
 
 class _SavePdfState extends State<SavePdf> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold();
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
   Directory selectedDirectory;
-
+  List<List<String>> lista;
+  _SavePdfState(this.lista);
   Future<void> _pickDirectory(BuildContext context) async {
     Directory directory = selectedDirectory;
     if (directory == null) {
@@ -41,6 +33,8 @@ class _MyHomePageState extends State<MyHomePage> {
     setState(() {
       selectedDirectory = newDirectory;
     });
+
+    pdfFile(selectedDirectory.path,lista);
   }
 
   @override
@@ -60,7 +54,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 textAlign: TextAlign.center,
               ),
               SizedBox(height: 8.0),
-              Text((selectedDirectory != null )? selectedDirectory.path : '',
+              Text((selectedDirectory != null) ? selectedDirectory.path : '',
                   textAlign: TextAlign.center)
             ],
           ),

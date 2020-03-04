@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:sislist/models/simpleDataBase.dart';
 import 'package:sislist/pages/listaAlunos.dart';
+import 'package:sislist/pages/selectFile.dart';
 
 class RegistrarFalta extends StatefulWidget {
   @override
@@ -70,6 +71,17 @@ class _RegistrarFaltaState extends State<RegistrarFalta> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        actions: <Widget>[IconButton(icon: Icon(Icons.archive), onPressed: () async {
+          await Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (BuildContext context) {
+                              return CarregaCsv();
+                            },
+                          ),
+                        );
+                        _load();
+        })],
         centerTitle: true,
         title: Text('Registrar Presença'),
         // actions: <Widget>[

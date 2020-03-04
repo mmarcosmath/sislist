@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sislist/models/aluno.dart';
+import 'package:sislist/models/pdfFIle.dart';
 import 'package:sislist/models/simpleDataBase.dart';
 import 'package:sislist/pages/savePdf.dart';
 import 'package:sislist/pages/selectFile.dart';
@@ -27,6 +28,26 @@ class _ListaAlunosState extends State<ListaAlunos> {
   _ListaAlunosState(this.turma) {
     alunos = [];
     _list();
+  }
+
+  Future<void> convertListString() async {
+    List<List<String>> listaPdf = [];
+    // List<String> aux = ['Date', 'PDF Version', 'Acrobat Version'];
+    listaPdf.add(<String>['Matricula', 'Nome', 'Presente']);
+    for (var a in alunos) {
+      if(a.presente){
+        continue;
+      }
+      listaPdf.add(<String>[a.matricula, a.nome, '${a.presente}']);
+    }
+    await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (BuildContext context) {
+          return SavePdf(listaPdf);
+        },
+      ),
+    );
   }
 
   @override
@@ -83,15 +104,8 @@ class _ListaAlunosState extends State<ListaAlunos> {
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.check),
-        onPressed: () async {
-          await Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (BuildContext context) {
-                return MyHomePage();
-              },
-            ),
-          );
+        onPressed: () {
+          convertListString();
 
           // for (var i = 0; i < 10; i++) {
           //   setState(() {
