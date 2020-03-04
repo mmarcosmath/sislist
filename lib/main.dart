@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sislist/pages/listaAlunos.dart';
 import 'package:sislist/pages/registrarFalta.dart';
+import 'package:sislist/pages/savePdf.dart';
 
 void main() => runApp(PaginaInicial());
 
@@ -13,7 +14,7 @@ class PaginaInicial extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.green,
       ),
-      home: RegistrarFalta(),
+      home: MyHomePage(),
     );
   }
 }

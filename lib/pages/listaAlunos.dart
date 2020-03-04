@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sislist/models/aluno.dart';
 import 'package:sislist/models/simpleDataBase.dart';
+import 'package:sislist/pages/savePdf.dart';
 import 'package:sislist/pages/selectFile.dart';
 
 class ListaAlunos extends StatefulWidget {
@@ -69,7 +70,7 @@ class _ListaAlunosState extends State<ListaAlunos> {
               return Card(
                 child: CheckboxListTile(
                   title: Text(aluno.nome),
-                  subtitle: Text('Matricula: '+aluno.matricula),
+                  subtitle: Text('Matricula: ' + aluno.matricula),
                   value: aluno.presente,
                   onChanged: (value) {
                     setState(() {
@@ -82,7 +83,16 @@ class _ListaAlunosState extends State<ListaAlunos> {
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.check),
-        onPressed: () {
+        onPressed: () async {
+          await Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (BuildContext context) {
+                return MyHomePage();
+              },
+            ),
+          );
+
           // for (var i = 0; i < 10; i++) {
           //   setState(() {
           //      alunos.add(Aluno(
