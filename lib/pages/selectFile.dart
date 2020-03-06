@@ -34,8 +34,6 @@ class _CarregaCsvState extends State<CarregaCsv> {
       print("Abrir" + e.toString());
     }
     if (_path == null) return;
-    print(_path);
-    // ShareExtend.share(_path, 'file');
 
     final input = File(_path).openRead();
     var fields = await input
@@ -44,7 +42,6 @@ class _CarregaCsvState extends State<CarregaCsv> {
         .toList();
 
     List<Aluno> list = [];
-    // print(fields);
     for (var i in fields) {
       var p = [];
       var a = '$i';
@@ -97,5 +94,52 @@ class _CarregaCsvState extends State<CarregaCsv> {
         ),
       )),
     );
+  }
+}
+
+String _path = '';
+String _extension;
+List<List<dynamic>> fields;
+
+final bd = SimpleDataBase.instance;
+
+Future<void> openFileExplorer() async {
+  try {
+    _path = await FilePicker.getFilePath(
+        type: FileType.ANY, fileExtension: _extension);
+  } on PlatformException catch (e) {
+    print("Abrir" + e.toString());
+  }
+  if (_path == null) return;
+
+  final input = File(_path).openRead();
+  var fields = await input
+      .transform(Latin1Decoder())
+      .transform(CsvToListConverter())
+      .toList();
+
+  List<Aluno> list = [];
+  for (var i in fields) {
+    var p = [];
+    var a = '$i';
+    a = a.substring(1, a.indexOf(']'));
+    for (var i = 0; i < a.length; i++) {
+      if ((a[i] == ';') || (a[i] == ',')) {
+        p.add(i);
+      }
+    }
+
+    list.add(
+      Aluno(
+          matricula: '${a.substring(0, p[0])}',
+          nome: '${a.substring(p[0] + 1, p[1])}',
+          turma: '${a.substring(p[1] + 1, a.length)}',
+          presente: false),
+    );
+  }
+
+  for (var aluno in list) {
+    await bd.insert(aluno);
+    await bd.insertTurma(aluno.turma);
   }
 }

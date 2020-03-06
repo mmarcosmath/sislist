@@ -47,21 +47,36 @@ class SimpleDataBase {
 
   Future insert(Aluno aluno) async {
     Database db = await instance.database;
-    await db.insert('aluno', aluno.toJson());
-  }
-
-  Future insertTurma(String turma) async {
-    Database db = await instance.database;
-    try{
-    await db.insert('turma', {'idturma': '$turma'});
-    }catch (SqfliteDatabaseException ) {
+    try {
+      await db.insert('aluno', aluno.toJson());
+    } catch (SqfliteDatabaseException) {
       return;
     }
   }
 
+  Future insertTurma(String turma) async {
+    Database db = await instance.database;
+    try {
+      await db.insert('turma', {'idturma': '$turma'});
+    } catch (Exception) {
+      return;
+    }
+     catch (PlatformException) {
+      return;
+    }
+    throw (PlatformException) {
+      return;
+    };
+  }
+
   Future<List<Map<String, dynamic>>> getTurma() async {
     Database db = await instance.database;
-    var res = await db.rawQuery('SELECT * FROM turma');
+    var res;
+    try {
+      res = await db.rawQuery('SELECT * FROM turma');
+    } catch (SqfliteDatabaseException) {
+      return [];
+    }
     if (res == null) return [];
     return res;
   }
@@ -86,8 +101,13 @@ class SimpleDataBase {
 
   Future<List> getall(String turma) async {
     Database db = await instance.database;
+    var res;
     // var res = await db.rawQuery('SELECT * FROM aluno WHERE turma == \'$turma\'');
-    var res = await db.query('aluno', where: 'turma = ?', whereArgs: [turma]);
+    try {
+      res = await db.query('aluno', where: 'turma = ?', whereArgs: [turma]);
+    } catch (SqfliteDatabaseException) {
+      return [];
+    }
     // var res = await db.query('aluno');
 
     List<Aluno> list =

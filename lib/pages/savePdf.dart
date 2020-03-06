@@ -6,7 +6,7 @@ import 'package:directory_picker/directory_picker.dart';
 import 'package:sislist/models/pdfFIle.dart';
 
 class SavePdf extends StatefulWidget {
-  List<List<String>> lista;
+  Map<String, dynamic> lista;
   SavePdf(this.lista);
 
   @override
@@ -15,7 +15,7 @@ class SavePdf extends StatefulWidget {
 
 class _SavePdfState extends State<SavePdf> {
   Directory selectedDirectory;
-  List<List<String>> lista;
+  Map<String, dynamic> lista;
   _SavePdfState(this.lista);
   Future<void> _pickDirectory(BuildContext context) async {
     Directory directory = selectedDirectory;

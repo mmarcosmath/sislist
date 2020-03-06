@@ -12,6 +12,7 @@ class RegistrarFalta extends StatefulWidget {
 class _RegistrarFaltaState extends State<RegistrarFalta> {
   final bd = SimpleDataBase.instance;
   List<String> turmas;
+  Map<String, dynamic> lista = {'id': 0};
   List<DropdownMenuItem<String>> items;
   TextEditingController horarios = TextEditingController();
   TextEditingController assunto = TextEditingController();
@@ -28,35 +29,40 @@ class _RegistrarFaltaState extends State<RegistrarFalta> {
               style: TextStyle(color: Colors.black, fontSize: 15)),
           value: t['idturma'],
         ));
-        print(t);
       });
     });
-    // for (var t in temp) {
-    //   turmas.add(t['idturma']);
-    //   print(t['idturma']);
-    // }
+  }
 
-    // for (var i = 0; i < 5; i++) {
-    //   items.add(DropdownMenuItem<String>(
-    //     child: Text("$i"),
-    //     value: '$i',
-    //   ));
-    // }
-    // int i = 0;
-    // for (var item in turmas) {
-    //   print(item);
-    //   items.add(
-    //     DropdownMenuItem<String>(
-    //       // child: Text(item['turma']),
-    //       // value: item['turma'],
-    //       child: Text('$i'),
-    //       value: '$i',
-    //     ),
-    //   );
-    //   i++;
+  _click() async {
+    // setState(() {
+    lista.addAll({
+      'turma': _selectedTurma,
+      //     'horarios': horarios.text,
+      //     'assunto': assunto.text
+    });
+    lista.addAll({
+      // 'turma': _selectedTurma,
+      'horarios': horarios.text,
+      //     'assunto': assunto.text
+    });
+    lista.addAll({
+      // 'turma': _selectedTurma,
+      //     'horarios': horarios.text,
+      'assunto': assunto.text
+    });
+    // });
+    await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (BuildContext context) {
+          return ListaAlunos(lista);
+        },
+      ),
+    );
   }
 
   _RegistrarFaltaState() {
+    // lista = {};
     turmas = [];
     items = [];
   }
@@ -64,24 +70,14 @@ class _RegistrarFaltaState extends State<RegistrarFalta> {
   @override
   void initState() {
     super.initState();
+    // lista = Map<String,dynamic>();
     _load();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        actions: <Widget>[IconButton(icon: Icon(Icons.archive), onPressed: () async {
-          await Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (BuildContext context) {
-                              return CarregaCsv();
-                            },
-                          ),
-                        );
-                        _load();
-        })],
+      appBar: AppBar( 
         centerTitle: true,
         title: Text('Registrar Presença'),
         // actions: <Widget>[
@@ -142,6 +138,7 @@ class _RegistrarFaltaState extends State<RegistrarFalta> {
               ),
               TextFormField(
                 enabled: true,
+                onFieldSubmitted: null,
                 keyboardType: TextInputType.text,
                 controller: assunto,
                 decoration: InputDecoration(
@@ -158,26 +155,19 @@ class _RegistrarFaltaState extends State<RegistrarFalta> {
                   children: <Widget>[
                     FlatButton(
                       onPressed: () {
-                        // Navigator.pop(context);
+                        Navigator.pop(context);
                       },
                       child: Text("Voltar"),
                     ),
                     RaisedButton(
-                      color: Colors.green,
-                      onPressed: () async {
-                        await Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (BuildContext context) {
-                              return ListaAlunos(_selectedTurma);
-                            },
-                          ),
-                        );
-                      },
                       child: Text(
                         'Proximo',
                         style: TextStyle(color: Colors.white),
                       ),
+                      color: Colors.green,
+                      onPressed: () {
+                        _click();
+                      },
                     ),
                   ],
                 ),

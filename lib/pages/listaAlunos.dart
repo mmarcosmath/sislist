@@ -6,26 +6,25 @@ import 'package:sislist/pages/savePdf.dart';
 import 'package:sislist/pages/selectFile.dart';
 
 class ListaAlunos extends StatefulWidget {
-  String turma;
-  ListaAlunos(this.turma);
+  var lista;
+  ListaAlunos(this.lista);
   @override
-  _ListaAlunosState createState() => _ListaAlunosState(turma);
+  _ListaAlunosState createState() => _ListaAlunosState(lista);
 }
 
 class _ListaAlunosState extends State<ListaAlunos> {
-  String turma;
   final bd = SimpleDataBase.instance;
   ScrollController controller = ScrollController();
   List<Aluno> alunos;
-
+  Map<String, dynamic> lista;
   _list() async {
-    List<Aluno> alunos = await bd.getall(turma);
+    List<Aluno> alunos = await bd.getall(lista['turma']);
     setState(() {
       this.alunos = alunos;
     });
   }
 
-  _ListaAlunosState(this.turma) {
+  _ListaAlunosState(this.lista) {
     alunos = [];
     _list();
   }
@@ -33,18 +32,20 @@ class _ListaAlunosState extends State<ListaAlunos> {
   Future<void> convertListString() async {
     List<List<String>> listaPdf = [];
     // List<String> aux = ['Date', 'PDF Version', 'Acrobat Version'];
-    listaPdf.add(<String>['Matricula', 'Nome', 'Presente']);
+    listaPdf.add(<String>['Matricula', 'Nome', 'Horarios']);
     for (var a in alunos) {
-      if(a.presente){
+      if (a.presente) {
         continue;
       }
-      listaPdf.add(<String>[a.matricula, a.nome, '${a.presente}']);
+      listaPdf.add(<String>[a.matricula, a.nome, '${lista['horarios']}']);
     }
+    lista.addAll({'listaPdf': listaPdf});
+
     await Navigator.push(
       context,
       MaterialPageRoute(
         builder: (BuildContext context) {
-          return SavePdf(listaPdf);
+          return SavePdf(lista);
         },
       ),
     );
@@ -61,22 +62,22 @@ class _ListaAlunosState extends State<ListaAlunos> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Center(child: Text(turma)),
+        title: Center(child: Text(lista['turma'])),
         actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.camera_alt),
-            onPressed: () async {
-              await bd.deleteTable();
-              await Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => CarregaCsv(),
-                ),
-              );
-              print("iu");
-              _list();
-            },
-          ),
+          // IconButton(
+          //   icon: Icon(Icons.camera_alt),
+          //   onPressed: () async {
+          //     await bd.deleteTable();
+          //     await Navigator.push(
+          //       context,
+          //       MaterialPageRoute(
+          //         builder: (context) => CarregaCsv(),
+          //       ),
+          //     );
+          //     print("iu");
+          //     _list();
+          //   },
+          // ),
         ],
       ),
       body: RefreshIndicator(

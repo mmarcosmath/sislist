@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:sislist/pages/listaAlunos.dart';
-import 'package:sislist/pages/registrarFalta.dart';
-import 'package:sislist/pages/savePdf.dart';
-import 'package:sislist/pages/selectFile.dart';
+import 'package:sislist/pages/paginaInicial.dart';
 
-void main() => runApp(PaginaInicial());
 
-class PaginaInicial extends StatelessWidget {
+void main() => runApp(Home());
+
+class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -15,7 +13,7 @@ class PaginaInicial extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.green,
       ),
-      home: RegistrarFalta(),
+      home: TelaInicial(),
     );
   }
 }
