@@ -17,22 +17,18 @@ class _TelaInicialState extends State<TelaInicial> {
         backgroundColor: Colors.green,
         title: Text("Diario de Classe"),
         elevation: 0.0,
-        centerTitle: true,
         actions: <Widget>[
-          Padding(
-            padding: const EdgeInsets.all(1),
-            child: FlatButton(
-              shape: new RoundedRectangleBorder(
-                  borderRadius: new BorderRadius.circular(100)),
-              child: Icon(
-                Icons.exit_to_app,
-                color: Colors.white,
-                size: 30,
-              ),
-              onPressed: () {
-                exit(0);
-              },
+          FlatButton(
+            shape: new RoundedRectangleBorder(
+                borderRadius: new BorderRadius.circular(100)),
+            child: Icon(
+              Icons.exit_to_app,
+              color: Colors.white,
+              size: 30,
             ),
+            onPressed: () {
+              exit(0);
+            },
           ),
         ],
       ),
@@ -88,11 +84,10 @@ class _TelaInicialState extends State<TelaInicial> {
                         CustomListTile(
                           "Importar Dados",
                           () {
-                            openFileExplorer();
-                            // Navigator.push(
-                            //     context,
-                            //     MaterialPageRoute(
-                            //         builder: (context) => CarregaCsv()));
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => CarregaCsv()));
                           },
                           Icons.archive,
                         ),

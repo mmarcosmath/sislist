@@ -48,8 +48,12 @@ class SimpleDataBase {
   Future insert(Aluno aluno) async {
     Database db = await instance.database;
     try {
-      await db.insert('aluno', aluno.toJson());
-    } catch (SqfliteDatabaseException) {
+      await db.insert(
+        'aluno',
+        aluno.toJson(),
+        conflictAlgorithm: ConflictAlgorithm.ignore,
+      );
+    } catch (e) {
       return;
     }
   }
@@ -57,16 +61,14 @@ class SimpleDataBase {
   Future insertTurma(String turma) async {
     Database db = await instance.database;
     try {
-      await db.insert('turma', {'idturma': '$turma'});
-    } catch (Exception) {
+      await db.insert(
+        'turma',
+        {'idturma': '$turma'},
+        conflictAlgorithm: ConflictAlgorithm.ignore,
+      );
+    } catch (e) {
       return;
     }
-     catch (PlatformException) {
-      return;
-    }
-    throw (PlatformException) {
-      return;
-    };
   }
 
   Future<List<Map<String, dynamic>>> getTurma() async {
@@ -101,13 +103,10 @@ class SimpleDataBase {
 
   Future<List> getall(String turma) async {
     Database db = await instance.database;
-    var res;
+
     // var res = await db.rawQuery('SELECT * FROM aluno WHERE turma == \'$turma\'');
-    try {
-      res = await db.query('aluno', where: 'turma = ?', whereArgs: [turma]);
-    } catch (SqfliteDatabaseException) {
-      return [];
-    }
+
+    var res = await db.query('aluno', where: 'turma = ?', whereArgs: [turma]);
     // var res = await db.query('aluno');
 
     List<Aluno> list =
