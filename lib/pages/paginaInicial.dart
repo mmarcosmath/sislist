@@ -17,20 +17,20 @@ class _TelaInicialState extends State<TelaInicial> {
         backgroundColor: Colors.green,
         title: Text("Diario de Classe"),
         elevation: 0.0,
-        actions: <Widget>[
-          FlatButton(
-            shape: new RoundedRectangleBorder(
-                borderRadius: new BorderRadius.circular(100)),
-            child: Icon(
-              Icons.exit_to_app,
-              color: Colors.white,
-              size: 30,
-            ),
-            onPressed: () {
-              exit(0);
-            },
-          ),
-        ],
+        // actions: <Widget>[
+        //   FlatButton(
+        //     shape: new RoundedRectangleBorder(
+        //         borderRadius: new BorderRadius.circular(100)),
+        //     child: Icon(
+        //       Icons.exit_to_app,
+        //       color: Colors.white,
+        //       size: 30,
+        //     ),
+        //     onPressed: () {
+        //       exit(0);
+        //     },
+        //   ),
+        // ],
       ),
       drawer: Container(
         color: Colors.white,
