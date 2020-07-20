@@ -38,11 +38,6 @@ class SimpleDataBase {
       idturma TEXT PRIMARY KEY
       )
       ''');
-    // Map<String, dynamic> row = {
-    //   'classificacao': '004',
-    //   'nome': 'Ciência da Computação',
-    // };
-    // await db.insert('classificacao', row);
   }
 
   Future insert(Aluno aluno) async {
@@ -107,7 +102,6 @@ class SimpleDataBase {
     // var res = await db.rawQuery('SELECT * FROM aluno WHERE turma == \'$turma\'');
 
     var res = await db.query('aluno', where: 'turma = ?', whereArgs: [turma]);
-    // var res = await db.query('aluno');
 
     List<Aluno> list =
         res.isNotEmpty ? res.map((c) => Aluno.fromJson(c)).toList() : [];
@@ -122,18 +116,20 @@ class SimpleDataBase {
   Future<List<Map<String, dynamic>>> teste() async {
     Database db = await instance.database;
     return await db.query('aluno');
-    // List<Aluno> alunos = [];
-    // if (res != null) {
-    //   for (var a in res) {
-    //     alunos.add(
-    //       Aluno(
-    //           matricula: a.values.elementAt(0),
-    //           nome: a.values.elementAt(1),
-    //           turma: a.values.elementAt(2),
-    //           presente: (int.parse('${a.values.elementAt(3)}') == 0) ? true : false),
-    //     );
-    //   }
-    // }
-    // return res!=null?alunos:[];
   }
+
+  // List<Aluno> alunos = [];
+  // if (res != null) {
+  //   for (var a in res) {
+  //     alunos.add(
+  //       Aluno(
+  //           matricula: a.values.elementAt(0),
+  //           nome: a.values.elementAt(1),
+  //           turma: a.values.elementAt(2),
+  //           presente: (int.parse('${a.values.elementAt(3)}') == 0) ? true : false),
+  //     );
+  //   }
+  // }
+  // return res!=null?alunos:[];
+
 }
