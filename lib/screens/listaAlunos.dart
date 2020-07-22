@@ -1,32 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:sislist/models/aluno.dart';
-import 'package:sislist/models/pdfFIle.dart';
 import 'package:sislist/models/simpleDataBase.dart';
-import 'package:sislist/pages/savePdf.dart';
-import 'package:sislist/pages/selectFile.dart';
+import 'package:sislist/routes/routes.dart';
 
 class ListaAlunos extends StatefulWidget {
-  var lista;
-  ListaAlunos(this.lista);
   @override
-  _ListaAlunosState createState() => _ListaAlunosState(lista);
+  _ListaAlunosState createState() => _ListaAlunosState();
 }
 
 class _ListaAlunosState extends State<ListaAlunos> {
   final bd = SimpleDataBase.instance;
   ScrollController controller = ScrollController();
-  List<Aluno> alunos;
+  List<Aluno> alunos = [];
   Map<String, dynamic> lista;
-  _list() async {
-    List<Aluno> alunos = await bd.getall(lista['turma']);
-    setState(() {
-      this.alunos = alunos;
-    });
-  }
+  bool getList = true;
 
-  _ListaAlunosState(this.lista) {
-    alunos = [];
-    _list();
+  _list() async {
+    if (getList) {
+      List<Aluno> alunos = [];
+      alunos = await bd.getall(lista['turma']);
+      setState(() {
+        this.alunos = alunos;
+      });
+      getList = false;
+    }
   }
 
   Future<void> convertListString() async {
@@ -41,25 +38,13 @@ class _ListaAlunosState extends State<ListaAlunos> {
     }
     lista.addAll({'listaPdf': listaPdf});
 
-    await Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (BuildContext context) {
-          return SavePdf(lista);
-        },
-      ),
-    );
-  }
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    _list();
+    await Navigator.of(context).pushNamed(Routes.SAVE_PDF, arguments: lista);
   }
 
   @override
   Widget build(BuildContext context) {
+    lista = ModalRoute.of(context).settings.arguments as Map<String, dynamic>;
+    _list();
     return Scaffold(
       appBar: AppBar(
         title: Center(child: Text(lista['turma'])),
@@ -107,16 +92,6 @@ class _ListaAlunosState extends State<ListaAlunos> {
         child: Icon(Icons.check),
         onPressed: () {
           convertListString();
-
-          // for (var i = 0; i < 10; i++) {
-          //   setState(() {
-          //      alunos.add(Aluno(
-          //         nome: 'Marcos Matheus Nascimento Silva',
-          //         matricula: '20181BCC.CAX0019',
-          //         presente: false,
-          //         turma: 'CC5'));
-          //   });
-          // }
         },
       ),
     );

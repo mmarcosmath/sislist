@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:sislist/pages/paginaInicial.dart';
-
+import 'package:sislist/routes/routes.dart';
+import 'package:sislist/screens/listaAlunos.dart';
+import 'package:sislist/screens/paginaInicial.dart';
+import 'package:sislist/screens/registrarFalta.dart';
+import 'package:sislist/screens/savePdf.dart';
+import 'package:sislist/screens/selectFile.dart';
 
 void main() => runApp(Home());
 
@@ -10,10 +14,16 @@ class Home extends StatelessWidget {
     return MaterialApp(
       title: 'SisList',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.green,
+      theme: ThemeData.light().copyWith(
+        primaryColor: Colors.green,
       ),
-      home: TelaInicial(),
+      routes: {
+        Routes.HOME: (context) => TelaInicial(),
+        Routes.CARREGA_CSV: (context) => CarregaCsv(),
+        Routes.LISTA_ALUNOS: (context) => ListaAlunos(),
+        Routes.REG_FALTA: (context) => RegistrarFalta(),
+        Routes.SAVE_PDF: (context) => SavePdf(),
+      },
     );
   }
 }

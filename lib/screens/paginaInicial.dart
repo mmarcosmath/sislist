@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:sislist/components/custom_drawer.dart';
-import 'package:sislist/components/custom_list_tile.dart';
-import 'package:sislist/pages/registrarFalta.dart';
-import 'package:sislist/pages/selectFile.dart';
 
 class TelaInicial extends StatefulWidget {
   @override

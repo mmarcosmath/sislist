@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:sislist/models/simpleDataBase.dart';
-import 'package:sislist/pages/listaAlunos.dart';
-import 'package:sislist/pages/selectFile.dart';
+import 'package:sislist/routes/routes.dart';
 
 class RegistrarFalta extends StatefulWidget {
   @override
@@ -51,14 +50,8 @@ class _RegistrarFaltaState extends State<RegistrarFalta> {
       'assunto': assunto.text
     });
     // });
-    await Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (BuildContext context) {
-          return ListaAlunos(lista);
-        },
-      ),
-    );
+    await Navigator.of(context)
+        .pushNamed(Routes.LISTA_ALUNOS, arguments: lista);
   }
 
   _RegistrarFaltaState() {
@@ -77,7 +70,7 @@ class _RegistrarFaltaState extends State<RegistrarFalta> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar( 
+      appBar: AppBar(
         centerTitle: true,
         title: Text('Registrar Presença'),
         // actions: <Widget>[

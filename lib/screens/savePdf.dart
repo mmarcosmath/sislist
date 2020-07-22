@@ -6,17 +6,19 @@ import 'package:directory_picker/directory_picker.dart';
 import 'package:sislist/models/pdfFIle.dart';
 
 class SavePdf extends StatefulWidget {
-  Map<String, dynamic> lista;
-  SavePdf(this.lista);
-
   @override
-  _SavePdfState createState() => _SavePdfState(lista);
+  _SavePdfState createState() => _SavePdfState();
 }
 
 class _SavePdfState extends State<SavePdf> {
   Directory selectedDirectory;
   Map<String, dynamic> lista;
-  _SavePdfState(this.lista);
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
   Future<void> _pickDirectory(BuildContext context) async {
     Directory directory = selectedDirectory;
     if (directory == null) {
@@ -34,11 +36,12 @@ class _SavePdfState extends State<SavePdf> {
       selectedDirectory = newDirectory;
     });
 
-    pdfFile(selectedDirectory.path,lista);
+    pdfFile(selectedDirectory.path, lista);
   }
 
   @override
   Widget build(BuildContext context) {
+    lista = ModalRoute.of(context).settings.arguments as Map<String, dynamic>;
     return Scaffold(
       appBar: AppBar(
         title: Text('Salvar PDF'),

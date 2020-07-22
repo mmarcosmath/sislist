@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sislist/pages/registrarFalta.dart';
-import 'package:sislist/pages/selectFile.dart';
+import 'package:sislist/routes/routes.dart';
 
 import 'custom_list_tile.dart';
 
@@ -49,20 +48,14 @@ class CustomDrawer extends StatelessWidget {
                       CustomListTile(
                         "Registrar Presença",
                         () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => RegistrarFalta()));
+                          Navigator.of(context).pushNamed(Routes.REG_FALTA);
                         },
                         Icons.playlist_add_check,
                       ),
                       CustomListTile(
                         "Importar Dados",
                         () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => CarregaCsv()));
+                          Navigator.of(context).pushNamed(Routes.CARREGA_CSV);
                         },
                         Icons.archive,
                       ),
